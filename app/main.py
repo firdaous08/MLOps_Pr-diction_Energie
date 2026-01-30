@@ -87,10 +87,10 @@ class FeatureEngineeringTransformer(BaseEstimator, TransformerMixin):
         return X
 
 # ==========================================
-# 2. CHARGEMENT DU MODÈLE
+# 2. CHARGEMENT DU MODELE
 # ==========================================
 app = FastAPI(
-    title="Building Energy Prediction API",
+    title="API de prédiction de consommation énergétique",
     description="API pour prédire la consommation d'énergie (kBtu) des bâtiments de Seattle.",
     version="1.0"
 )
@@ -98,8 +98,8 @@ app = FastAPI(
 # Chargement unique au démarrage
 try:
     pipeline = joblib.load('../models/building_energy_pipeline.joblib')
-    print("✅ Modèle chargé avec succès.")
+    print(" Modèle chargé avec succès.")
 except Exception as e:
-    print(f"❌ Erreur lors du chargement du modèle : {e}")
+    print(f" Erreur lors du chargement du modèle : {e}")
     pipeline = None
 
