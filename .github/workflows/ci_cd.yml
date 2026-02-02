@@ -1,0 +1,51 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "feature/integration-modele" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # JOB 1 : TESTS (Se lance sur toutes les branches)
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Installer Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Installer les dépendances
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: Lancer les tests
+        run: python -m pytest
+
+  # JOB 2 : DEPLOIEMENT (Seulement si on est sur la branche principale 'main')
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    # On déploie uniquement si c'est la branche 'main' et que les tests sont OK
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+          
+      - name: Push vers Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          # ⬇️ REMPLACE 'PSEUDO' ET 'NOM_DU_SPACE' CI-DESSOUS !!!
+          git remote add space https://oauth2:$HF_TOKEN@huggingface.co/spaces/fii08/Energy-Predictor-P5
+          git push --force space main
