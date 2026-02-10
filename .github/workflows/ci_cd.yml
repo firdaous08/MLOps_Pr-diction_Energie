@@ -41,11 +41,11 @@ jobs:
           lfs: true
           
       - name: Push vers Hugging Face
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          # ⬇️ REMPLACE 'PSEUDO' ET 'NOM_DU_SPACE' CI-DESSOUS !!!
-          git remote add space https://oauth2:$HF_TOKEN@huggingface.co/spaces/fii08/Energy-Predictor-P5
-          git push --force space main
+  env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        # On utilise ton pseudo 'fii08' pour l'authentification
+        git remote add space https://fii08:$HF_TOKEN@huggingface.co/spaces/fii08/Energy-Predictor-P5
+        git push --force space main
