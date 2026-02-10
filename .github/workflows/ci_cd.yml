@@ -27,7 +27,7 @@ jobs:
       - name: Lancer les tests
         run: python -m pytest
 
-  # JOB 2 : DEPLOIEMENT (Seulement si on est sur la branche principale 'main')
+  # JOB 2 : DEPLOIEMENT (la branche principale 'main')
   deploy:
     needs: test
     runs-on: ubuntu-latest
