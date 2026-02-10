@@ -23,15 +23,14 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
-          
+            
       - name: Lancer les tests
         run: python -m pytest
 
-  # JOB 2 : DEPLOIEMENT (la branche principale 'main')
+  # JOB 2 : DEPLOIEMENT (uniquement sur la branche principale 'main')
   deploy:
     needs: test
     runs-on: ubuntu-latest
-    # On déploie uniquement si c'est la branche 'main' et que les tests sont OK
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Récupérer le code
@@ -39,13 +38,12 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-          
+            
       - name: Push vers Hugging Face
-  env:
-        HF_TOKEN: ${{ secrets.HF_TOKEN }}
-    run: |
-        git config --global user.email "action@github.com"
-        git config --global user.name "GitHub Action"
-        # On utilise ton pseudo 'fii08' pour l'authentification
-        git remote add space https://fii08:$HF_TOKEN@huggingface.co/spaces/fii08/Energy-Predictor-P5
-        git push --force space main
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git remote add space https://fii08:$HF_TOKEN@huggingface.co/spaces/fii08/Energy-Predictor-P5
+          git push --force space main
