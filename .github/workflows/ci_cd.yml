@@ -14,7 +14,7 @@ jobs:
       - name: Récupérer le code
         uses: actions/checkout@v3
         with:
-          lfs: true  # <--- C'EST CA QUI MANQUAIT ! (Télécharge le vrai modèle)
+          lfs: true  
 
       - name: Installer Python
         uses: actions/setup-python@v4
@@ -45,7 +45,14 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          # 1. On installe et on tire TOUT le contenu LFS (Le camion)
+          git lfs install
+          git lfs pull
+          
+          # 2. Configurer Git
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
+          
+          # 3. Ajouter le remote et pousser
           git remote add space https://fii08:$HF_TOKEN@huggingface.co/spaces/fii08/Energy-Predictor-P5
           git push --force space main
