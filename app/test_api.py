@@ -47,7 +47,12 @@ def test_predict_valid():
     }
     
     response = client.post("/predict", json=payload)
-    
+    # AJOUTE CES LIGNES POUR VOIR L'ERREUR DANS GITHUB :
+    if response.status_code != 200:
+        print("ERREUR API DETECTÉE :", response.text)
+
+    # Assertions
+    assert response.status_code == 200    
     # Assertions (Vérifications)
     assert response.status_code == 200
     json_data = response.json()
