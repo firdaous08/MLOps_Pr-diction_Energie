@@ -1,3 +1,12 @@
+---
+title: Energy Predictor P5
+emoji: ⚡
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+app_port: 7860
+---
 # 🏢 Energy Predictor - MLOps Project
 
 Ce projet est une solution complète de **Machine Learning Operations (MLOps)** permettant de prédire la consommation énergétique et les émissions de CO2 de bâtiments de la ville de Seattle.
