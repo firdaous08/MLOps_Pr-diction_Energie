@@ -23,7 +23,7 @@ def test_read_main():
     """Vérifie que l'API est bien en ligne."""
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "API de Prédiction Énergétique en ligne !"}
+    assert response.json() == {"message": "API de Prédiction Energétique en ligne !"}
 
 # 3. TEST FONCTIONNEL : Prédiction Valide (Cas Nominal)
 def test_predict_valid():
