@@ -29,7 +29,7 @@ jobs:
       - name: Lancer les tests
         run: python -m pytest
 
-  # JOB 2 : DEPLOIEMENT (uniquement sur la branche principale 'main')
+  # JOB 2 : DEPLOIEMENT
   deploy:
     needs: test
     runs-on: ubuntu-latest
@@ -38,21 +38,29 @@ jobs:
       - name: Récupérer le code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-          lfs: true
-            
+          fetch-depth: 0     # Indispensable pour l'historique
+          lfs: true          # Active le support LFS
+
       - name: Push vers Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          # 1. On installe et on tire TOUT le contenu LFS (Le camion)
+          # 1. Initialisation
           git lfs install
+          
+          # 2. LA COMMANDE MAGIQUE : On force le téléchargement BRUT depuis GitHub
+          # Cela remplit le cache .git/lfs/objects nécessaire pour le push
+          git lfs fetch --all origin
+          
+          # 3. On tire les fichiers dans le dossier de travail (sécurité)
           git lfs pull
           
-          # 2. Configurer Git
+          # 4. Configuration Git
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           
-          # 3. Ajouter le remote et pousser
+          # 5. Ajout du remote Hugging Face
           git remote add space https://fii08:$HF_TOKEN@huggingface.co/spaces/fii08/Energy-Predictor-P5
+          
+          # 6. Envoi Force
           git push --force space main
