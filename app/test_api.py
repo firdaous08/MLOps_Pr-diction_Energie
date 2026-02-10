@@ -1,6 +1,20 @@
 from fastapi.testclient import TestClient
 from unittest.mock import MagicMock
 from app.main import app, get_db
+import os
+
+def test_check_model_file():
+    """Vérifie si le fichier modèle existe et s'il a la bonne taille."""
+    model_path = "models/building_energy_pipeline.joblib"
+    
+    # 1. Vérifie l'existence
+    assert os.path.exists(model_path), "Le fichier modèle est INTROUVABLE !"
+    
+    # 2. Vérifie la taille (Si < 2000 octets, c'est un pointeur LFS cassé)
+    file_size = os.path.getsize(model_path)
+    print(f"TAILLE DU FICHIER : {file_size} octets")
+    
+    assert file_size > 2000, f"Le modèle est trop petit ({file_size} octets). Git LFS n'a pas téléchargé le vrai fichier !"
 
 # 1. CREATION DU MOCK 
 # On crée une fausse session qui ne fait rien quand on l'appelle
