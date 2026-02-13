@@ -61,10 +61,9 @@ def predict_energy(data: BuildingInput, db: Session = Depends(get_db)):
     if pipeline is None:
         raise HTTPException(status_code=500, detail="Modèle non chargé côté serveur")
 
-    # A. Prédiction (Partie critique qui doit toujours marcher)
+    # A. Prédiction 
     try:
         # Conversion Pydantic -> Dict -> DataFrame
-        # Note : Si tu as une vieille version de Pydantic (<2.0), utilise .dict() au lieu de .model_dump()
         input_data_dict = data.dict() if hasattr(data, 'dict') else data.model_dump()
         
         df_input = pd.DataFrame([input_data_dict])
@@ -77,7 +76,7 @@ def predict_energy(data: BuildingInput, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Erreur de prédiction : {str(e)}")
 
-    # B. Enregistrement en Base de Données (Optionnel / Fail-Safe)
+    # B. Enregistrement en Base de Données
     log_id = None
     warning_msg = None
 
