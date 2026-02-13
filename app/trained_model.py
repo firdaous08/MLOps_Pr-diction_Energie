@@ -8,11 +8,9 @@ from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
-
-# --- IMPORT CRUCIAL : On utilise la classe unique du projet ---
 from app.preprocessing import FeatureEngineeringTransformer
 
-# Configuration des chemins (Adapté à ton architecture)
+# Configuration des chemins 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 INPUT_FILE = os.path.join(current_dir, "../data/2016_Building_Energy_Benchmarking.csv")
 MODEL_FILE = os.path.join(current_dir, "../models/building_energy_pipeline.joblib")

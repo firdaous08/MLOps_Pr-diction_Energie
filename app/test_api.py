@@ -27,7 +27,7 @@ def override_get_db():
     finally:
         pass
 
-# On dit à l'API : "Quand tu as besoin de 'get_db', utilise 'override_get_db' à la place"
+# au lieu de 'get_db', on utilise 'override_get_db' à la place pour huggingface
 app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
