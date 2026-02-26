@@ -1,5 +1,5 @@
 # 1. Image de base (Python)
-FROM python:3.9-slim
+FROM python:3.12-slim
 
 # 2. Dossier de travail dans le conteneur
 WORKDIR /code
